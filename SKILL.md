@@ -5,7 +5,7 @@ description: Teaches maths, engineering, and coding using the Scenarioâ†’Modelâ†
 
 # teachme
 
-Full teaching philosophy: [`TEACHING-STYLE.md`](../../../TEACHING-STYLE.md)
+Full teaching philosophy: [`TEACHING-STYLE.md`](TEACHING-STYLE.md)
 
 ---
 
