@@ -126,7 +126,7 @@ A corrected misconception is worth more than two new concepts introduced.
 Each lesson is a self-contained HTML file saved to `./lessons/` and named `0001-dash-case-name.html` (number increments).
 
 A lesson must be:
-- **Beautiful** — clean typography, warm cream background (`#faf8f4`), Merriweather / Playfair Display / Inter / JetBrains Mono (see `STYLE.md`)
+- **Beautiful** — clean typography, warm cream background (`#faf8f4`), Merriweather / Playfair Display / Inter / JetBrains Mono (see `STYLE.md`); built from the component blocks in `lesson-template.html`
 - **Short** — completable quickly; one tangible win per lesson; stays within working memory
 - **Cited** — every factual claim links to a source; never state something from parametric knowledge without a citation
 - **Linked** — HTML anchors to related lessons and reference documents
@@ -212,6 +212,24 @@ If the user opts out of community suggestions, record it in `NOTES.md` and stop 
 | Engineering | System diagram · physics-floor gap diagram |
 
 All lessons use workspace style: `#faf8f4` background, Merriweather / Playfair Display / Inter / JetBrains Mono. Full spec in `STYLE.md`. Working template in `lesson-template.html`.
+
+### Available template components
+
+Copy from `lesson-template.html` — do not hand-roll. Each component has a distinct palette role:
+
+| Class | Palette | Use for |
+|---|---|---|
+| `.definition` | warm tan border | Named terms and formal definitions |
+| `.code-block` | cool blue | Python / code listings with syntax highlighting |
+| `.equation-block` | sage green | MathJax equations with tag and caption |
+| `.figure-block` | dusty rose | SVG or image figures with caption |
+| `.graph-block` | amber | Chart.js interactive graphs |
+| `.quiz-block` | soft lavender | Multiple-choice retrieval questions |
+| `.practice-block` | soft teal | Checkbox step-by-step exercises |
+| `.tree-locator` | warm rule | "Branches from / Unlocks next" — always before summary |
+| `.summary-block` | espresso inverted | Key points — always last before footer |
+
+Every lesson must end with a `.tree-locator` followed by a `.summary-block` and then the page footer.
 
 ---
 
