@@ -1,0 +1,831 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lesson — Template</title>
+  <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,400;0,700;1,400&family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Inter:wght@400;500;600&family=JetBrains+Mono:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <style>
+    /* ─────────────────────────────────────────
+       TOKENS
+    ───────────────────────────────────────── */
+    :root {
+      --page-bg:      #faf8f4;
+      --ink:          #1c1917;
+      --ink-2:        #44403c;
+      --ink-muted:    #78716c;
+      --warm-rule:    #e7dece;
+      --warm-accent:  #c4a882;
+      --warm-dark:    #2c1f14;
+
+      --code-bg:      #edf2f8;
+      --code-border:  #9bb8d4;
+      --code-header:  #dde8f2;
+      --code-label:   #4a7fa8;
+      --code-ink:     #1e3a52;
+
+      --eq-bg:        #edf4ed;
+      --eq-border:    #82b882;
+      --eq-label:     #2d7a2d;
+
+      --fig-bg:       #f5edeb;
+      --fig-border:   #c89080;
+      --fig-label:    #8b4434;
+
+      --graph-bg:     #f5f2e4;
+      --graph-border: #c8a838;
+      --graph-label:  #7a6010;
+
+      --quiz-bg:      #edebf5;
+      --quiz-border:  #9b7cc8;
+      --quiz-label:   #5c3d99;
+      --quiz-ink:     #1a0a4a;
+
+      --prac-bg:      #e6f4f1;
+      --prac-border:  #5a9e8e;
+      --prac-label:   #2d7d6e;
+      --prac-ink:     #1a4d44;
+
+      --sum-bg:       #2c1f14;
+      --sum-ink:      #f5f0e8;
+      --sum-muted:    #c4a882;
+      --sum-rule:     #4a3828;
+    }
+
+    /* ─────────────────────────────────────────
+       BASE
+    ───────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
+    body {
+      background: var(--page-bg);
+      color: var(--ink);
+      font-family: 'Merriweather', Georgia, serif;
+      font-size: 17.5px;
+      line-height: 1.85;
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 0 48px 96px;
+    }
+
+    /* ─────────────────────────────────────────
+       RUNNING HEADER
+    ───────────────────────────────────────── */
+    .running-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 20px 0 16px;
+      margin-bottom: 56px;
+      border-bottom: 1px solid var(--warm-rule);
+    }
+    .rh-left, .rh-right {
+      font-family: 'Inter', sans-serif;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--warm-accent);
+      white-space: nowrap;
+    }
+    .rh-rule { flex: 1; height: 1px; background: var(--warm-rule); margin: 0 20px; }
+
+    /* ─────────────────────────────────────────
+       LESSON TITLE
+    ───────────────────────────────────────── */
+    .lesson-eyebrow {
+      font-family: 'Inter', sans-serif;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--warm-accent);
+      margin-bottom: 12px;
+    }
+    h1 {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 2.2rem;
+      font-weight: 700;
+      line-height: 1.2;
+      letter-spacing: -0.01em;
+      color: var(--ink);
+      margin-bottom: 10px;
+    }
+    .lesson-subtitle {
+      font-family: 'Merriweather', Georgia, serif;
+      font-style: italic;
+      font-size: 1rem;
+      color: var(--ink-muted);
+      padding-bottom: 36px;
+      margin-bottom: 48px;
+      border-bottom: 1px solid var(--warm-rule);
+    }
+
+    /* ─────────────────────────────────────────
+       SECTION HEADINGS
+    ───────────────────────────────────────── */
+    h2 {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: var(--ink);
+      margin: 52px 0 16px;
+      letter-spacing: -0.01em;
+    }
+
+    /* ─────────────────────────────────────────
+       BODY COPY
+    ───────────────────────────────────────── */
+    p { margin-bottom: 1.4em; color: var(--ink-2); }
+    code {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.82em;
+      background: #f0ebe0;
+      border: 1px solid var(--warm-rule);
+      padding: 1px 5px;
+      border-radius: 3px;
+      color: var(--ink);
+    }
+
+    /* ─────────────────────────────────────────
+       DEFINITION CALLOUT
+    ───────────────────────────────────────── */
+    .definition {
+      background: var(--page-bg);
+      border: 1px solid var(--warm-rule);
+      border-left: 3px solid var(--warm-accent);
+      padding: 20px 24px;
+      margin: 28px 0;
+      border-radius: 0 3px 3px 0;
+    }
+    .definition-label {
+      font-family: 'Inter', sans-serif;
+      font-size: 9.5px;
+      font-weight: 600;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--warm-accent);
+      margin-bottom: 8px;
+    }
+    .definition p { font-size: 0.93rem; margin-bottom: 0; color: var(--ink-2); }
+
+    /* ─────────────────────────────────────────
+       CODE BLOCK  ·  cool blue
+    ───────────────────────────────────────── */
+    .code-block { margin: 32px 0; border: 1px solid var(--code-border); border-radius: 4px; overflow: hidden; }
+    .code-block-header {
+      background: var(--code-header);
+      border-bottom: 1px solid var(--code-border);
+      padding: 8px 18px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .code-block-header span {
+      font-family: 'Inter', sans-serif;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--code-label);
+    }
+    .code-block pre {
+      background: var(--code-bg);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.81rem;
+      line-height: 1.7;
+      padding: 20px 22px;
+      overflow-x: auto;
+      color: var(--code-ink);
+    }
+    .code-block code { background: none; border: none; padding: 0; color: inherit; font-size: inherit; }
+    .syn-kw  { color: #9a3412; }
+    .syn-fn  { color: #1e5fa8; }
+    .syn-num { color: #7c3aed; }
+    .syn-cm  { color: #7a9ab8; font-style: italic; }
+    .syn-str { color: #166534; }
+
+    /* ─────────────────────────────────────────
+       EQUATION BLOCK  ·  sage green
+    ───────────────────────────────────────── */
+    .equation-block {
+      background: var(--eq-bg);
+      border: 1px solid var(--eq-border);
+      border-radius: 4px;
+      margin: 32px 0;
+      padding: 26px 24px 18px;
+      text-align: center;
+      position: relative;
+    }
+    .equation-block-label {
+      font-family: 'Inter', sans-serif;
+      font-size: 9.5px;
+      font-weight: 600;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--eq-label);
+      margin-bottom: 14px;
+    }
+    .equation-tag {
+      position: absolute;
+      right: 18px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-family: 'Inter', sans-serif;
+      font-size: 0.75rem;
+      color: var(--eq-label);
+    }
+    .equation-caption {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.76rem;
+      color: var(--eq-label);
+      margin-top: 12px;
+      font-style: italic;
+      opacity: 0.8;
+    }
+
+    /* ─────────────────────────────────────────
+       FIGURE BLOCK  ·  dusty rose
+    ───────────────────────────────────────── */
+    .figure-block { margin: 32px 0; }
+    .figure-placeholder {
+      width: 100%;
+      background: var(--fig-bg);
+      border: 1px solid var(--fig-border);
+      border-radius: 4px 4px 0 0;
+      height: 220px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .figure-placeholder svg { opacity: 0.5; }
+    .figure-placeholder span { font-family: 'Inter', sans-serif; font-size: 0.74rem; color: var(--fig-label); }
+    figcaption {
+      background: var(--fig-bg);
+      border: 1px solid var(--fig-border);
+      border-top: none;
+      border-radius: 0 0 4px 4px;
+      padding: 10px 16px;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.79rem;
+      color: var(--fig-label);
+      font-style: italic;
+      line-height: 1.5;
+    }
+    figcaption strong { font-style: normal; font-weight: 600; }
+
+    /* ─────────────────────────────────────────
+       GRAPH BLOCK  ·  amber
+    ───────────────────────────────────────── */
+    .graph-block { margin: 32px 0; }
+    .graph-header {
+      background: #ede8ce;
+      border: 1px solid var(--graph-border);
+      border-bottom: none;
+      border-radius: 4px 4px 0 0;
+      padding: 8px 18px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .graph-header span {
+      font-family: 'Inter', sans-serif;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--graph-label);
+    }
+    .graph-canvas-wrap {
+      background: var(--graph-bg);
+      border: 1px solid var(--graph-border);
+      padding: 16px 14px 10px;
+    }
+    .graph-canvas-wrap canvas { width: 100% !important; }
+    .graph-caption {
+      background: var(--graph-bg);
+      border: 1px solid var(--graph-border);
+      border-top: none;
+      border-radius: 0 0 4px 4px;
+      padding: 8px 16px 10px;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.79rem;
+      color: var(--graph-label);
+      font-style: italic;
+      line-height: 1.5;
+    }
+    .graph-caption strong { font-style: normal; font-weight: 600; }
+
+    /* ─────────────────────────────────────────
+       QUIZ BLOCK  ·  soft lavender
+    ───────────────────────────────────────── */
+    .quiz-block {
+      background: var(--quiz-bg);
+      border: 1px solid var(--quiz-border);
+      border-radius: 4px;
+      padding: 24px 26px;
+      margin: 32px 0;
+    }
+    .quiz-block-label {
+      font-family: 'Inter', sans-serif;
+      font-size: 9.5px;
+      font-weight: 600;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--quiz-label);
+      margin-bottom: 12px;
+    }
+    .quiz-question {
+      font-family: 'Merriweather', serif;
+      font-size: 0.95rem;
+      color: var(--quiz-ink);
+      margin-bottom: 16px;
+      line-height: 1.75;
+    }
+    .quiz-options { display: flex; flex-direction: column; gap: 8px; }
+    .quiz-option {
+      text-align: left;
+      background: white;
+      border: 1px solid var(--quiz-border);
+      border-radius: 3px;
+      padding: 10px 16px;
+      cursor: pointer;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.875rem;
+      color: var(--quiz-ink);
+      line-height: 1.5;
+      transition: background 0.12s;
+    }
+    .quiz-option:hover:not(:disabled) { background: #f5f2fc; }
+    .quiz-option:disabled { cursor: default; }
+    .quiz-option.opt-correct { background: #e8f5e9; border-color: #66bb6a; color: #2e7d32; }
+    .quiz-option.opt-wrong   { background: #ffebee; border-color: #ef5350; color: #c62828; }
+    .quiz-feedback {
+      display: none;
+      margin-top: 12px;
+      padding: 10px 14px;
+      border-radius: 3px;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.82rem;
+      line-height: 1.6;
+    }
+    .feedback-correct { display: block !important; background: #e8f5e9; color: #2e7d32; border: 1px solid #a5d6a7; }
+    .feedback-wrong   { display: block !important; background: #ffebee; color: #c62828; border: 1px solid #ef9a9a; }
+
+    /* ─────────────────────────────────────────
+       PRACTICE BLOCK  ·  soft teal
+    ───────────────────────────────────────── */
+    .practice-block {
+      background: var(--prac-bg);
+      border: 1px solid var(--prac-border);
+      border-radius: 4px;
+      padding: 24px 26px;
+      margin: 32px 0;
+    }
+    .practice-block-label {
+      font-family: 'Inter', sans-serif;
+      font-size: 9.5px;
+      font-weight: 600;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--prac-label);
+      margin-bottom: 16px;
+    }
+    .practice-steps { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+    .practice-step {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      cursor: pointer;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.875rem;
+      color: var(--prac-ink);
+      line-height: 1.6;
+    }
+    .practice-step input[type="checkbox"] {
+      margin-top: 3px;
+      flex-shrink: 0;
+      accent-color: var(--prac-border);
+      width: 15px;
+      height: 15px;
+      cursor: pointer;
+    }
+    .practice-step.done span { text-decoration: line-through; opacity: 0.45; }
+
+    /* ─────────────────────────────────────────
+       TREE LOCATOR  ·  warm tan
+    ───────────────────────────────────────── */
+    .tree-locator {
+      border-top: 2px solid var(--warm-rule);
+      border-bottom: 1px solid var(--warm-rule);
+      padding: 22px 0;
+      margin: 52px 0 36px;
+    }
+    .tree-locator-label {
+      font-family: 'Inter', sans-serif;
+      font-size: 9.5px;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--warm-accent);
+      margin-bottom: 14px;
+    }
+    .tree-row {
+      display: grid;
+      grid-template-columns: 110px 1fr;
+      gap: 16px;
+      padding: 8px 0;
+    }
+    .tree-row + .tree-row { border-top: 1px solid var(--warm-rule); }
+    .tree-key {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--ink-muted);
+      padding-top: 2px;
+    }
+    .tree-val {
+      font-family: 'Merriweather', serif;
+      font-size: 0.88rem;
+      color: var(--ink-2);
+      line-height: 1.7;
+    }
+
+    /* ─────────────────────────────────────────
+       TABLE
+    ───────────────────────────────────────── */
+    table { width: 100%; border-collapse: collapse; margin: 28px 0; font-family: 'Inter', sans-serif; font-size: 0.86rem; }
+    thead th {
+      font-weight: 600;
+      font-size: 0.73rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--ink-muted);
+      border-bottom: 2px solid var(--warm-rule);
+      padding: 8px 12px;
+      text-align: left;
+    }
+    tbody td {
+      border-bottom: 1px solid var(--warm-rule);
+      padding: 10px 12px;
+      color: var(--ink-2);
+      vertical-align: top;
+      line-height: 1.55;
+    }
+    tbody tr:last-child td { border-bottom: none; }
+    tbody tr:hover td { background: rgba(196, 168, 130, 0.06); }
+
+    /* ─────────────────────────────────────────
+       SUMMARY BLOCK  ·  espresso inverted
+    ───────────────────────────────────────── */
+    .summary-block {
+      background: var(--sum-bg);
+      border-radius: 4px;
+      padding: 30px 34px;
+      margin: 20px 0 32px;
+    }
+    .summary-block-label {
+      font-family: 'Inter', sans-serif;
+      font-size: 9.5px;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--sum-muted);
+      margin-bottom: 6px;
+    }
+    .summary-block h3 {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--sum-ink);
+      margin-bottom: 22px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid var(--sum-rule);
+    }
+    .summary-block ul { list-style: none; }
+    .summary-block li {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.875rem;
+      color: #e8e0d4;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--sum-rule);
+      display: grid;
+      grid-template-columns: 26px 1fr;
+      gap: 6px;
+      line-height: 1.6;
+    }
+    .summary-block li:last-child { border-bottom: none; }
+    .summary-block li code {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.8em;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.12);
+      color: #c4a882;
+      padding: 1px 5px;
+      border-radius: 3px;
+    }
+    .sum-n { font-family: 'JetBrains Mono', monospace; font-size: 0.68rem; color: var(--sum-muted); padding-top: 3px; opacity: 0.7; }
+
+    /* ─────────────────────────────────────────
+       PAGE FOOTER
+    ───────────────────────────────────────── */
+    .page-footer {
+      margin-top: 20px;
+      padding: 16px 0;
+      border-top: 1px solid var(--warm-rule);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .page-footer-left { font-family: 'Inter', sans-serif; font-size: 0.73rem; color: var(--warm-accent); }
+    .page-footer-right { font-family: 'Merriweather', Georgia, serif; font-style: italic; font-size: 0.85rem; color: var(--warm-accent); }
+
+    /* ─────────────────────────────────────────
+       PRINT
+    ───────────────────────────────────────── */
+    @media print {
+      body { font-size: 15px; padding: 0 24px 48px; }
+      .running-header { position: static; }
+      .code-block, .equation-block, .figure-block, .graph-block,
+      .quiz-block, .practice-block, .summary-block,
+      .tree-locator { page-break-inside: avoid; }
+      .page-footer { page-break-inside: avoid; }
+      .quiz-option { opacity: 1 !important; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Running header -->
+  <div class="running-header">
+    <span class="rh-left">Chapter 3 · Memory &amp; Objects</span>
+    <div class="rh-rule"></div>
+    <span class="rh-right">Python Fundamentals</span>
+  </div>
+
+  <!-- Title -->
+  <div class="lesson-eyebrow">Lesson 01</div>
+  <h1>How Python Stores Data in Memory</h1>
+  <p class="lesson-subtitle">Variables are labels, not boxes — and that distinction changes everything.</p>
+
+  <!-- Body -->
+  <h2>The Core Idea</h2>
+  <p>
+    In Python, a variable is not a box that holds a value. It is a <em>name</em> attached to an
+    object that lives in memory. When you write <code>x = 5</code>, Python creates an integer
+    object, then binds the name <em>x</em> to it.
+  </p>
+  <p>
+    This distinction matters the moment two names point to the same object. The object exists
+    once — the names are merely different ways to reach it.
+  </p>
+
+  <div class="definition">
+    <div class="definition-label">Definition 3.1 — Name Binding</div>
+    <p>A <strong>name binding</strong> is an association between an identifier and a Python object.
+    Multiple names may bind to the same object simultaneously. Rebinding a name changes only
+    that association — it does not alter the object itself.</p>
+  </div>
+
+  <!-- Code block -->
+  <h2>Code</h2>
+  <div class="code-block">
+    <div class="code-block-header">
+      <span>Python · variable binding</span>
+      <span>Listing 3.1</span>
+    </div>
+    <pre><span class="syn-cm"># Two names, one object</span>
+<span class="syn-kw">x</span> = <span class="syn-num">42</span>
+<span class="syn-kw">y</span> = x
+
+<span class="syn-fn">print</span>(<span class="syn-fn">id</span>(x) == <span class="syn-fn">id</span>(y))  <span class="syn-cm"># True — same object in memory</span>
+
+<span class="syn-cm"># Rebinding x doesn't move y</span>
+<span class="syn-kw">x</span> = <span class="syn-num">100</span>
+<span class="syn-fn">print</span>(y)  <span class="syn-cm"># still 42</span></pre>
+  </div>
+
+  <!-- Equation block -->
+  <h2>Equation</h2>
+  <div class="equation-block">
+    <div class="equation-block-label">Equation 3.1 — Identity equality</div>
+    \[ \text{id}(x) = \text{id}(y) \iff x \text{ and } y \text{ reference the same object} \]
+    <span class="equation-tag">(3.1)</span>
+    <div class="equation-caption">Python's <code>id()</code> returns the memory address of the object a name currently points to.</div>
+  </div>
+
+  <!-- Figure block -->
+  <h2>Figure</h2>
+  <figure class="figure-block">
+    <div class="figure-placeholder">
+      <svg width="40" height="40" fill="none" stroke="#c89080" stroke-width="1.5" viewBox="0 0 24 24">
+        <rect x="3" y="3" width="18" height="18" rx="2"/>
+        <path d="M3 9h18M9 21V9"/>
+      </svg>
+      <span>Replace with diagram showing x and y pointing to the same object in memory</span>
+    </div>
+    <figcaption>
+      <strong>Figure 3.1</strong> — When two names bind to the same object,
+      <code>id(x) == id(y)</code>. The object exists once; the names are pointers, not copies.
+    </figcaption>
+  </figure>
+
+  <!-- Graph block -->
+  <h2>Graph</h2>
+  <div class="graph-block">
+    <div class="graph-header">
+      <span>Figure 3.2 · Objects in memory vs name count</span>
+      <span>bar chart</span>
+    </div>
+    <div class="graph-canvas-wrap">
+      <canvas id="chart" height="180"></canvas>
+    </div>
+    <div class="graph-caption">
+      <strong>Figure 3.2</strong> — Object count grows with unique objects created,
+      not with the number of names bound to them.
+    </div>
+  </div>
+
+  <!-- Table -->
+  <h2>Table</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Operation</th>
+        <th>What happens</th>
+        <th>Object count</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>x = 42</code></td>
+        <td>Create object 42, bind name x to it</td>
+        <td>1</td>
+      </tr>
+      <tr>
+        <td><code>y = x</code></td>
+        <td>Bind name y to the same object as x</td>
+        <td>1</td>
+      </tr>
+      <tr>
+        <td><code>x = 100</code></td>
+        <td>Create object 100, rebind x — y unchanged</td>
+        <td>2</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- Quiz block -->
+  <h2>Quiz</h2>
+  <div class="quiz-block" data-explanation="Rebinding x points it at a new object (100). y still points to the original object (42) — they were never linked, only briefly pointing at the same thing.">
+    <div class="quiz-block-label">Quiz 3.1 — Name binding</div>
+    <!-- All options are equal in word count and close in character length -->
+    <p class="quiz-question">After running <code>x = 42; y = x; x = 100</code>, what does <code>print(y)</code> output?</p>
+    <div class="quiz-options">
+      <button class="quiz-option" data-correct="false">It outputs 100</button>
+      <button class="quiz-option" data-correct="true">It outputs 42</button>
+      <button class="quiz-option" data-correct="false">It raises an error</button>
+      <button class="quiz-option" data-correct="false">It outputs None</button>
+    </div>
+    <div class="quiz-feedback"></div>
+  </div>
+
+  <!-- Practice block -->
+  <h2>Practice</h2>
+  <div class="practice-block">
+    <div class="practice-block-label">Practice 3.1 — Verify it yourself</div>
+    <ol class="practice-steps">
+      <li>
+        <label class="practice-step">
+          <input type="checkbox">
+          <span>Open a Python REPL or Jupyter notebook.</span>
+        </label>
+      </li>
+      <li>
+        <label class="practice-step">
+          <input type="checkbox">
+          <span>Run <code>x = 42; y = x</code> and then <code>id(x) == id(y)</code>. Confirm it returns <code>True</code>.</span>
+        </label>
+      </li>
+      <li>
+        <label class="practice-step">
+          <input type="checkbox">
+          <span>Now run <code>x = 100</code> and check <code>y</code>. Observe that it still holds <code>42</code>.</span>
+        </label>
+      </li>
+      <li>
+        <label class="practice-step">
+          <input type="checkbox">
+          <span>Run <code>id(x) == id(y)</code> again. The ids now differ — x has moved, y has not.</span>
+        </label>
+      </li>
+    </ol>
+  </div>
+
+  <!-- Tree locator — always before summary -->
+  <div class="tree-locator">
+    <div class="tree-locator-label">Where this lesson sits</div>
+    <div class="tree-row">
+      <span class="tree-key">Branches from</span>
+      <span class="tree-val">Python's object model — everything in Python is an object with an identity, a type, and a value.</span>
+    </div>
+    <div class="tree-row">
+      <span class="tree-key">Unlocks next</span>
+      <span class="tree-val">Mutability and copying · The <code>is</code> vs <code>==</code> distinction · Reference counting and garbage collection</span>
+    </div>
+  </div>
+
+  <!-- Summary block — always last before footer -->
+  <div class="summary-block">
+    <div class="summary-block-label">End of Lesson 01</div>
+    <h3>Key Points to Remember</h3>
+    <ul>
+      <li>
+        <span class="sum-n">01</span>
+        <span>Python variables are names bound to objects — not containers holding values.</span>
+      </li>
+      <li>
+        <span class="sum-n">02</span>
+        <span><code>id(x)</code> returns the memory address of the object <code>x</code> currently points to.</span>
+      </li>
+      <li>
+        <span class="sum-n">03</span>
+        <span>Writing <code>y = x</code> makes y point to the same object — not a copy of it.</span>
+      </li>
+      <li>
+        <span class="sum-n">04</span>
+        <span>Rebinding one name never affects other names pointing to the same object.</span>
+      </li>
+    </ul>
+  </div>
+
+  <!-- Footer -->
+  <div class="page-footer">
+    <span class="page-footer-left">Ask your teacher a follow-up if anything is unclear.</span>
+    <span class="page-footer-right">1</span>
+  </div>
+
+  <script>
+    // Chart
+    new Chart(document.getElementById('chart'), {
+      type: 'bar',
+      data: {
+        labels: ['x = 42', 'y = x', 'x = 100'],
+        datasets: [{
+          label: 'Objects in memory',
+          data: [1, 1, 2],
+          backgroundColor: '#c8dff0',
+          borderColor: '#4a7fa8',
+          borderWidth: 1.5,
+          borderRadius: 3,
+        }]
+      },
+      options: {
+        plugins: { legend: { display: false } },
+        scales: {
+          y: {
+            beginAtZero: true,
+            max: 3,
+            ticks: { stepSize: 1, font: { family: 'Inter', size: 11 }, color: '#7a6010' },
+            grid: { color: '#ede8ce' }
+          },
+          x: {
+            ticks: { font: { family: 'Inter', size: 11 }, color: '#7a6010' },
+            grid: { display: false }
+          }
+        }
+      }
+    });
+
+    // Quiz
+    document.querySelectorAll('.quiz-block').forEach(function(quiz) {
+      var explanation = quiz.dataset.explanation || '';
+      quiz.querySelectorAll('.quiz-option').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+          var correct = btn.dataset.correct === 'true';
+          quiz.querySelectorAll('.quiz-option').forEach(function(b) {
+            b.disabled = true;
+            if (b.dataset.correct === 'true') b.classList.add('opt-correct');
+            else if (b === btn) b.classList.add('opt-wrong');
+          });
+          var fb = quiz.querySelector('.quiz-feedback');
+          fb.className = 'quiz-feedback ' + (correct ? 'feedback-correct' : 'feedback-wrong');
+          fb.textContent = (correct ? '✓ Correct. ' : '✗ Not quite — the correct answer is highlighted. ') + explanation;
+        });
+      });
+    });
+
+    // Practice tick-off
+    document.querySelectorAll('.practice-step').forEach(function(label) {
+      label.querySelector('input[type="checkbox"]').addEventListener('change', function() {
+        label.classList.toggle('done', this.checked);
+      });
+    });
+  </script>
+
+</body>
+</html>
